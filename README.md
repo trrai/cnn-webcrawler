@@ -1,0 +1,2 @@
+# info344-assignment4
+This project utilizes concepts covered in all of server side web development (INFO 344). By utilizing PHP, C#, .NET Framework and Azure Cloud services, I was able to construct a crawler that indexes CNN and Bleacher Report. In addition, the project introduces functionality to search articles with the stored data and search suggestions from the Wikipedia dataset held in a trie data structure. 
