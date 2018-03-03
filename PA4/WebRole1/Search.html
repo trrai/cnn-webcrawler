@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PA4 Search</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="search.js"></script>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-7755033001870302",
+            enable_page_level_ads: true
+        });
+    </script>
+
+    <style>
+        body {
+            background-image: url("img/doodles.png");
+            
+        }
+        #loading, #nba_results, #no_result{
+            display:none;
+        }
+        #player_image {
+            width: 125px;
+        }
+        .input-group{
+            opacity: 0.8;
+        }
+        .card {
+            background:rgba(255, 255, 255, 0.8);
+        }
+        .card:hover {
+            background: rgba(255, 255, 255, 1);
+            border: solid 3px rgb(0, 148, 255);
+
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align: center;">
+        <div style="display: inline-block; width: 50%;">
+            <div class="input-group p-4">
+                <input id="search_input" class="form-control col-12" type="text" placeholder="Search Term">
+                <button id="search_button" class="btn btn-info">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-7755033001870302"
+         data-ad-slot="3555176220"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    <center><img src="https://i.redd.it/ounq1mw5kdxy.gif" align="middle"  id="loading" /></center>
+
+    <div id="nba_results" >
+
+        <div class="card-text container">
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Photo</th>
+                    <th>Team</th>
+                    <th>GP</th>
+                    <th>PPG</th>
+                    <th>3PTM</th>
+                    <th>REB</th>
+                    <th>AST</th>
+                </tr>
+                <tr>
+                    <td id="player_name"></td>
+                    <td><img id="player_image" src="" /></td>
+                    <td id="player_team"></td>
+                    <td id="player_gp"></td>
+                    <td id="player_ppg"></td>
+                    <td id="player_threes"></td>
+                    <td id="player_reb"></td>
+                    <td id="player_ast"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap m-2" id="search_results">
+
+    </div>
+
+    <center><img src="https://cdn.dribbble.com/users/163617/screenshots/2386158/no-results.jpg"  id="no_result"</center>
+</body>
+
+</html>
