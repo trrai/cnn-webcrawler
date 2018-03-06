@@ -66,8 +66,10 @@ namespace ClassLibrary1
                  ConfigurationManager.AppSettings["StorageConnectionString2"]);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("results");
-            table.CreateIfNotExists();
 
+            
+            table.CreateIfNotExists();
+            
             return table;
         }
 
@@ -77,8 +79,9 @@ namespace ClassLibrary1
                  ConfigurationManager.AppSettings["StorageConnectionString2"]);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("errors");
+            
             table.CreateIfNotExists();
-
+            
             return table;
         }
 
@@ -88,8 +91,9 @@ namespace ClassLibrary1
                  ConfigurationManager.AppSettings["StorageConnectionString2"]);
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference("performance");
+            
             table.CreateIfNotExists();
-
+            
             return table;
         }
 

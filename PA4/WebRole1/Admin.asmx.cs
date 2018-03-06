@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,8 +30,10 @@ namespace WebRole1
     {
         //Trie to be used in the service
         private static Trie trie;
-        private static Dictionary<string, List<string>> Cache = new Dictionary<string, List<string>>();
+        private static Dictionary<string, List<Tuple<int, string, string, string, string, string>>> Cache = 
+            new Dictionary<string, List<Tuple<int, string, string, string, string, string>>>();
         private string fullPath = "";
+        public static string suggestionStats = "No stats available";
 
         //Performance counter to keep track of memory usage
         private PerformanceCounter memProcess = new PerformanceCounter("Memory", "Available MBytes");
@@ -69,6 +72,13 @@ namespace WebRole1
             }
 
             return fullPath;
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string GetSuggestionStats()
+        {
+            return suggestionStats;
         }
 
         [WebMethod]
@@ -116,9 +126,11 @@ namespace WebRole1
 
                 }
                 //return the stats
-                return "Last Inserted String: " + lastInserted +
+                suggestionStats = "Last Inserted String: " + lastInserted +
                     " " + "| Inserted: " + currentInsertionNum +
                     " | Memory Remaining: " + memProcess.NextValue();
+
+                return suggestionStats;
             }
 
 
@@ -129,8 +141,16 @@ namespace WebRole1
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public List<string> Search(string input)
         {
-            var list = trie.Search(input);
-            return list;
+            try
+            {
+                var list = trie.Search(input);
+                return list;
+            }
+            catch
+            {
+                return new List<string>();
+            }
+
 
         }
 
@@ -201,9 +221,16 @@ namespace WebRole1
 
         // Clears the url queue's content
         [WebMethod]
-        public string ClearUrlQueue()
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string ClearAll()
         {
+            StopCrawl();
             DBManager.getUrlQueue().Clear();
+            DBManager.getDataQueue().Clear();
+            DBManager.getStatusQueue().Clear();
+            DBManager.getPerformanceTable().DeleteAsync();
+            DBManager.getResultsTable().DeleteAsync();
+            DBManager.getErrorsTable().DeleteAsync();
             return "Cleared";
         }
 
@@ -251,12 +278,18 @@ namespace WebRole1
 
             var q = DBManager.getResultsTable().ExecuteQuery(rangeQuery);
 
-
-            //System.Diagnostics.Debug.WriteLine("===== LIST =====");
-            foreach (var item in q.Take(10))
+            try
             {
-                //System.Diagnostics.Debug.WriteLine(item.Address);
-                returnList.Add(item.Address);
+                //System.Diagnostics.Debug.WriteLine("===== LIST =====");
+                foreach (var item in q.Take(10))
+                {
+                    //System.Diagnostics.Debug.WriteLine(item.Address);
+                    returnList.Add(item.Address);
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Results Table Error");
             }
             return returnList;
 
@@ -274,14 +307,21 @@ namespace WebRole1
 
             List<string> returnList = new List<string>();
 
-            var q = DBManager.getPerformanceTable().ExecuteQuery(rangeQuery);
-
-
-            //System.Diagnostics.Debug.WriteLine("===== PERFORMANCE LIST =====");
-            foreach (var item in q.Take(10))
+            try
             {
-                //System.Diagnostics.Debug.WriteLine("CPU: " + item.CPU + " --- Memory: " + item.Memory);
-                returnList.Add("CPU: " + item.CPU.ToString() + " --- Memory: " + item.Memory.ToString());
+                var q = DBManager.getPerformanceTable().ExecuteQuery(rangeQuery);
+
+
+                //System.Diagnostics.Debug.WriteLine("===== PERFORMANCE LIST =====");
+                foreach (var item in q.Take(10))
+                {
+                    //System.Diagnostics.Debug.WriteLine("CPU: " + item.CPU + " --- Memory: " + item.Memory);
+                    returnList.Add("CPU: " + item.CPU.ToString() + " --- Memory: " + item.Memory.ToString());
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Table Error");
             }
             return returnList;
         }
@@ -324,19 +364,26 @@ namespace WebRole1
 
             var q = DBManager.getErrorsTable().ExecuteQuery(rangeQuery);
 
-
-            //System.Diagnostics.Debug.WriteLine("===== ERROR LIST =====");
-            foreach (var item in q.Take(10))
+            try
             {
-                //System.Diagnostics.Debug.WriteLine("CPU: " + item.CPU + " --- Memory: " + item.Memory);
-                returnList.Add(item.Link.ToString() + " | " + item.ErrorMsg.ToString());
+                //System.Diagnostics.Debug.WriteLine("===== ERROR LIST =====");
+                foreach (var item in q.Take(10))
+                {
+                    //System.Diagnostics.Debug.WriteLine("CPU: " + item.CPU + " --- Memory: " + item.Memory);
+                    returnList.Add(item.Link.ToString() + " | " + item.ErrorMsg.ToString());
+                }
             }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Errors Table Error");
+            }
+
             return returnList;
         }
 
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
-        public List<string> SearchResults(string input)
+        public string SearchResults(string input)
         {
             try
             {
@@ -348,7 +395,7 @@ namespace WebRole1
                     Regex rgx = new Regex("[^a-zA-Z0-9 ]");
                     input = rgx.Replace(input, "");
 
-                    //stop words we dont want being sent
+                    //stop words we dont want being sent to the table
                     string[] stopwords = new string[] {"a", "about", "above", "above", "across",
                     "after", "afterwards", "again", "against", "all", "almost", "alone",
                     "along", "already", "also", "although", "always", "am", "among", "amongst",
@@ -384,6 +431,8 @@ namespace WebRole1
                     var filteredKeywords = keywords.Except(stopwords);
 
                     List<string> returnList = new List<string>();
+                    List<Website> webList = new List<Website>();
+
                     Dictionary<string, int> occurences = new Dictionary<string, int>();
 
                     foreach (var word in filteredKeywords)
@@ -396,6 +445,7 @@ namespace WebRole1
 
                         foreach (var item in q)
                         {
+                            /*
                             //System.Diagnostics.Debug.WriteLine(item.Address);
                             string key = item.Name + " | " + item.Address + " | " + item.ImageLink + " | " + item.BodyText;
 
@@ -411,32 +461,48 @@ namespace WebRole1
                                 occurences[key] = oldCount + 1;
 
                             }
-
-                            returnList.Add(key);
-
+                            */
+                            //returnList.Add(key);
+                            webList.Add(item);
                         }
 
 
                     }
 
-                    var sorted = occurences.OrderByDescending(pair => pair.Value).Select(pair => pair.Key);
-                    var sortedList = sorted.ToList();
+                    //var sorted = occurences.OrderByDescending(pair => pair.Value)
+                    //    .Select(pair => pair.Key);
+                    //var sortedList = sorted.ToList();
 
-                    Cache[input] = sortedList;
-                    return sortedList;
+                    //Order first by relevance, then order by the date it was published
+                    List<Tuple<int, string, string, string, string, string>> sortedResults = webList
+                        .GroupBy(x => x.Address)
+                        .Select(x => new Tuple<int, string, string, string, string, string>(x.ToList().Count(), x.First().Name, x.First().Address, x.First().BodyText, x.First().Date, x.First().ImageLink))
+                        .OrderByDescending(x => x.Item1)
+                        .ThenByDescending(x => x.Item5)
+                        .Take(25).ToList();
+
+                    //Empty cache if it's too big 
+                    if (Cache.Count > 99)
+                    {
+                        Cache.Clear();
+                    }
+
+                    Cache[input] = sortedResults;
+
+                    return JsonConvert.SerializeObject(sortedResults);
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine("Case 2, Using Cache!");
-                    return Cache[input];
+                    return JsonConvert.SerializeObject(Cache[input]); 
                 }
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("Server Side Search Error: " + e.Message);
-                return null;
+                return "No Results";
             }
-            
+
         }
     }
 }

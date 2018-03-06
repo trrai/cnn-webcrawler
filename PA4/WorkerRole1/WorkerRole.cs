@@ -113,22 +113,22 @@ namespace WorkerRole1
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine("<------ ERROR FOUND HERE ------>");
+                        //System.Diagnostics.Debug.WriteLine("<------ ERROR FOUND HERE ------>");
                         ClassLibrary1.Error newErr = new ClassLibrary1.Error(url, ("Error: Response Code " + responseCode + " on request!"));
                         TableOperation insertOperation = TableOperation.Insert(newErr);
                         DBManager.getErrorsTable().Execute(insertOperation);
-                        System.Diagnostics.Debug.WriteLine("Error inserted: " + url);
+                        //System.Diagnostics.Debug.WriteLine("Error inserted: " + url);
                         return false;
                     }
                 }
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("<------ ERROR FOUND HERE ------>");
+                //System.Diagnostics.Debug.WriteLine("<------ ERROR FOUND HERE ------>");
                 ClassLibrary1.Error newErr = new ClassLibrary1.Error(url, e.Message);
                 TableOperation insertOperation = TableOperation.Insert(newErr);
                 DBManager.getErrorsTable().Execute(insertOperation);
-                System.Diagnostics.Debug.WriteLine("Error inserted: " + url);
+                //System.Diagnostics.Debug.WriteLine("Error inserted: " + url);
                 return false;
             }
         }
@@ -182,9 +182,9 @@ namespace WorkerRole1
                                 //check if it's already been added
                                 if (!DBManager.AddedLinks.Contains(hrefValue) && notOnBlacklist(hrefValue))
                                 {
-                                    System.Diagnostics.Debug.WriteLine(hrefValue);
+                                    //System.Diagnostics.Debug.WriteLine(hrefValue);
                                     DBManager.AddedLinks.Add(hrefValue);
-                                    System.Diagnostics.Debug.WriteLine("Added: " + DBManager.AddedLinks.Contains(hrefValue));
+                                    //System.Diagnostics.Debug.WriteLine("Added: " + DBManager.AddedLinks.Contains(hrefValue));
                                     CloudQueueMessage newLink = new CloudQueueMessage(hrefValue);
                                     DBManager.getDataQueue().AddMessage(newLink);
                                 }
@@ -288,7 +288,7 @@ namespace WorkerRole1
                 {
                     if (Regex.IsMatch(word, @"^[a-zA-Z]+$"))
                     {
-                        System.Diagnostics.Debug.WriteLine("Word: " + word);
+                        //System.Diagnostics.Debug.WriteLine("Word: " + word);
 
                         Website newWebsite = new Website(title, url, publicationDate, word.ToLower(), imgLink, bodyText);
 
@@ -335,11 +335,12 @@ namespace WorkerRole1
         {
             //keep record of what to delete
             string deleteId = "";
-            new Task(getPerformance).Start();
+            
 
             //if we're allowed to run
             if (statusCheck())
             {
+                new Task(getPerformance).Start();
                 //for robots.txt files
                 if (url.Contains("robots.txt"))
                 {
@@ -476,7 +477,7 @@ namespace WorkerRole1
                                 try
                                 {
                                     string link = element.Element(XName.Get("loc", "http://www.google.com/schemas/sitemap/0.9")).Value;
-                                    System.Diagnostics.Debug.WriteLine("Link Parsed: " + link);
+                                    //System.Diagnostics.Debug.WriteLine("Link Parsed: " + link);
                                 }
                                 catch
                                 {

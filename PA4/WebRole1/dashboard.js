@@ -8,52 +8,103 @@
         errorRequest();
         makeChart();
         countRequest();
+        getSuggestionStats();
 
         //refresh automatically every X seconds
         setInterval(performanceRequest, 1000);
         setInterval(fetchLastTenRequest, 5000);
         setInterval(errorRequest, 5000);
         setInterval(updateStatus, 2000);
+        setInterval(getSuggestionStats, 2000);
         setInterval(countRequest, 1000);
 
 
+        //Get buttons
+        var fetchLastTenButton = document.getElementById('fetchLastTen_button');
+        var performanceButton = document.getElementById('performance_button');
+        var startButton = document.getElementById('start');
+        var stopButton = document.getElementById('stop');
+        var clearButton = document.getElementById('clear_button');
+        var trieButton = document.getElementById('trie_button')
+        var updateChartButton = document.getElementById('update_chart');
+        var errorsButton = document.getElementById('errors_button');
+
+        //Add listeners
+        fetchLastTenButton.addEventListener('click', function () {
+            fetchLastTenRequest();
+        });
+
+        performanceButton.addEventListener('click', function () {
+            performanceRequest();
+        });
+
+        errorsButton.addEventListener('click', function () {
+            errorRequest();
+        });
+
+        startButton.addEventListener('click', function () {
+            startRequest();
+        })
+
+        stopButton.addEventListener('click', function () {
+            stopRequest();
+        })
+
+        trieButton.addEventListener('click', function () {
+            $('#trie_button').attr('disabled', true);
+            $('#trie_button').text("Building... Please Wait");
+            buildTrieRequest();
+        })
+
+        clearButton.addEventListener('click', function () {
+            $('#clear_button').attr('disabled', true);
+            $('#clear_button').text("Clearing... Please Wait");
+            clearRequest();
+        })
+        updateChartButton.addEventListener('click', function () {
+            updateChart();
+        })
+
+        
     });
-
-    //Get buttons
-    var fetchLastTenButton = document.getElementById('fetchLastTen_button');
-    var performanceButton = document.getElementById('performance_button');
-    var startButton = document.getElementById('start');
-    var stopButton = document.getElementById('stop');
-    var updateChartButton = document.getElementById('update_chart');
-    var errorsButton = document.getElementById('errors_button');
-
-    //Add listeners
-    fetchLastTenButton.addEventListener('click', function () {
-        fetchLastTenRequest();
-    });
-
-    performanceButton.addEventListener('click', function () {
-        performanceRequest();
-    });
-
-    errorsButton.addEventListener('click', function () {
-        errorRequest();
-    });
-
-    startButton.addEventListener('click', function () {
-        startRequest();
-    })
-
-    stopButton.addEventListener('click', function () {
-        stopRequest();
-    })
-
-    updateChartButton.addEventListener('click', function () {
-        updateChart();
-    })
     var cpuInitData = [];
     var memInitData = [];
 
+    //function to clear queues, storage, etc.
+    function clearRequest() {
+        $.ajax({
+            type: "POST",
+            url: "Admin.asmx/ClearAll",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                console.log("CLEARED!");
+                $('#clear_button').attr('disabled', false);
+                $('#clear_button').text("Clear All");
+            },
+            error: function (msg) {
+                console.log("error: " + msg);
+            }
+        });
+    }
+    //function to build the trie for suggestions
+    function buildTrieRequest() {
+
+        $.ajax({
+            type: "POST",
+            url: "Admin.asmx/BuildTrie",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                console.log("BUILT TRIE!");
+                $('#trie_button').attr('disabled', false);
+                $('#trie_button').text("Build Trie");
+            },
+            error: function (msg) {
+                console.log("error: " + msg);
+            }
+        });
+    }
     //function to get the current counts of queue and table
     function countRequest() {
         $.ajax({
@@ -235,6 +286,33 @@
             }
         });
     };
+    //function to update suggestion stats
+    function getSuggestionStats() {
+        $.ajax({
+            type: "POST",
+            url: "Admin.asmx/GetSuggestionStats",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+                
+                //if results are not returned
+                if (eval(msg)["d"] == "No stats available") {
+                    $("#suggestion_count").text("N/A...Trie not built");
+                    $("#last_suggestion").text("N/A...Trie not built");
+                }
+                //otherwise append the results found
+                else {
+                    var stats = eval(msg)["d"].replace(/['"]+/g, '').split("|");
+                    
+                    $('#suggestion_count').text(stats[1]);
+                    $('#last_suggestion').text(stats[0]);
+                }
+            },
+            error: function (msg) {
+                console.log("error: " + msg);
+            }
+        });
+    }
     //function to start
     function startRequest() {
 

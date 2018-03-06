@@ -11,7 +11,7 @@
           
             if (input.val() !== "") {
                 //handle casing issues by making first character uppercase and rest lowercase
-                //handleWikiJSON(input.val().charAt(0).toUpperCase() + input.val().slice(1).toLowerCase());
+                handleWikiJSON(input.val().charAt(0).toUpperCase() + input.val().slice(1).toLowerCase());
                 console.log(input.val());
             }
         });
@@ -49,15 +49,15 @@
             async: true,
             success: function (msg) {
 
-                $('#search_results').empty();
+                $('#suggestions').empty();
                 //if results are not returned 
                 if (!eval(msg)["d"]) {
-                    $("#search_results").append("<p> No results found </p>");
+                    $("#suggestions").append("<p> No results found </p>");
                 }
                 //otherwise append the results found
                 else {
                     for (var i in eval(msg)["d"]) {
-                        $("#search_results").append("<p>" + eval(msg)["d"][i] + "</p>");
+                        $("#suggestions").append("<p>" + eval(msg)["d"][i] + "</p>");
                     }
                 }
             },
@@ -83,8 +83,8 @@
                 console.log ("request sent success")
                 //if results are not returned
                 //console.log(msg["d"])
-                var results = msg["d"];
-
+                var results = JSON.parse(msg.d);
+                console.log(results);
                 $("#search_results").empty();
 
                 if (results.length == 0) {
@@ -99,8 +99,8 @@
 
                         //console.log("Results: " + results[i]);
 
-                        var stats = results[i].split("|");
-
+                        var currentElement = results[i];
+                        
                         var card = document.createElement("div");
                         card.className = "card m-3 p-2";
                         card.style.display = "inline-block"
@@ -110,18 +110,23 @@
 
                         var img = document.createElement("img");
                         img.className = "card-img-top";
-                        img.setAttribute('src', stats[2]);
+                        img.setAttribute('src', currentElement["Item6"]);
 
                         var cardBlock = document.createElement("div");
                         cardBlock.className = "card-block";
 
                         var title = document.createElement("h4");
-                        title.appendChild(document.createTextNode(stats[0]));
+                        title.appendChild(document.createTextNode(currentElement["Item2"]));
                         title.className = "card-title";
 
                         var text = document.createElement("p");
-                        var shortenedTextContent = stats[3].split(" ").splice(0, 50).join(" ");
+                        var elementTextArr = currentElement["Item4"].split(" ");
+                        var shortenedTextContent = elementTextArr.splice(0, 50).join(" ");
                         var inputWords = sInput.split(" ");
+
+                        var subtitle = document.createElement("h6");
+                        subtitle.appendChild(document.createTextNode(currentElement["Item5"]));
+                        subtitle.className = "card-subtitle mb-2 text-muted";
 
                         //bold query words
                         for (var i = 0; i < inputWords.length; i++) {
@@ -135,12 +140,13 @@
                         text.className = "card-text";
                         
                         var link = document.createElement("a");
-                        link.setAttribute('href', stats[1]);
+                        link.setAttribute('href', currentElement["Item3"]);
                         link.setAttribute('target', "_blank");
-                        link.className = "btn btn-primary";
+                        link.className = "btn blue-button";
                         link.appendChild(document.createTextNode("Visit"));
 
                         cardBlock.appendChild(title);
+                        cardBlock.appendChild(subtitle);
                         cardBlock.appendChild(text);
                         cardBlock.appendChild(link);
                         card.appendChild(img);
