@@ -20,6 +20,18 @@
             <button id="stop" class="btn btn-danger">STOP Crawling</button>
             <button id="trie_button" class="btn btn-warning">Build Trie</button>
             <button id="clear_button" class="btn btn-primary">Clear All</button>
+
+            <div class="input-group" style="margin: 40px;">
+
+                <p>Search for a Title: </p>
+                <input id="search_input" class="form-control col-12 m-4" type="text" placeholder="Link">
+                
+                <button id="search_button" class="btn btn-secondary" style="margin-top: 10px;">Search</button>
+
+                <h3><b><span id="search_result"></span></b></h3>
+
+            </div>
+
             <h3> Status: <span id="status" class="label label-primary"> </span></h3>
             <h3> Queue Count: <span id="queue_count" class="label label-default"></span></h3>
             <h3> Table Count: <span id="table_count" class="label label-default"></span></h3>

@@ -50,14 +50,25 @@
             success: function (msg) {
 
                 $('#suggestions').empty();
+                $("#suggestions").css("display", "block");
                 //if results are not returned 
                 if (!eval(msg)["d"]) {
-                    $("#suggestions").append("<p> No results found </p>");
+                    $("#suggestions").empty();
                 }
                 //otherwise append the results found
                 else {
                     for (var i in eval(msg)["d"]) {
-                        $("#suggestions").append("<p>" + eval(msg)["d"][i] + "</p>");
+                        console.log("Here");
+                        var p = document.createElement("p");
+                        p.appendChild(document.createTextNode(eval(msg)["d"][i]));
+                        p.addEventListener('click', function (e) {
+                            console.log("CLICKED");
+                            console.log(e.target.innerHTML);
+                            $("#search_input").val(e.target.innerHTML);
+                            $("#suggestions").css("display", "none");
+                        })
+                        $('#suggestions').append(p);
+                        //$("#suggestions").append("<p>" + eval(msg)["d"][i] + "</p>");
                     }
                 }
             },
@@ -120,7 +131,7 @@
                         title.className = "card-title";
 
                         var text = document.createElement("p");
-                        var elementTextArr = currentElement["Item4"].split(" ");
+                        var elementTextArr = currentElement["Item3"].split(" ");
                         var shortenedTextContent = elementTextArr.splice(0, 50).join(" ");
                         var inputWords = sInput.split(" ");
 
@@ -130,9 +141,9 @@
 
                         //bold query words
                         for (var i = 0; i < inputWords.length; i++) {
-                            console.log("input word: " + inputWords[i]);
-                            shortenedTextContent = shortenedTextContent.replace(" " + inputWords[i] + " ", " <strong>" + inputWords[i] + "</strong> ");
-                            console.log("replaced with: " + "<strong> " + inputWords[i] + " </strong>");
+
+                            shortenedTextContent = shortenedTextContent.replace(new RegExp(" " + inputWords[i] + " ", "ig"), " <strong>" + inputWords[i] + "</strong> ");
+                            
                         }
 
                         shortenedTextContent += "...";
@@ -140,7 +151,7 @@
                         text.className = "card-text";
                         
                         var link = document.createElement("a");
-                        link.setAttribute('href', currentElement["Item3"]);
+                        link.setAttribute('href', currentElement["Item4"]);
                         link.setAttribute('target', "_blank");
                         link.className = "btn blue-button";
                         link.appendChild(document.createTextNode("Visit"));

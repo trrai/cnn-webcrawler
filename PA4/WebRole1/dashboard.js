@@ -29,6 +29,9 @@
         var updateChartButton = document.getElementById('update_chart');
         var errorsButton = document.getElementById('errors_button');
 
+        var submitButton = document.getElementById('search_button');
+        var searchInput = $('#search_input');
+
         //Add listeners
         fetchLastTenButton.addEventListener('click', function () {
             fetchLastTenRequest();
@@ -61,8 +64,15 @@
             $('#clear_button').text("Clearing... Please Wait");
             clearRequest();
         })
+
         updateChartButton.addEventListener('click', function () {
             updateChart();
+        })
+
+        submitButton.addEventListener('click', function () {
+            $('#search_button').attr('disabled', true);
+            $('#search_button').text("Searching... Please Wait");
+            searchLink(searchInput.val());
         })
 
         
@@ -70,6 +80,35 @@
     var cpuInitData = [];
     var memInitData = [];
 
+    //function to search for the title for a link 
+    function searchLink(sInput) {
+        console.log("here");
+;        $.ajax({
+            type: "POST",
+            url: "Admin.asmx/SearchLink",
+            data: JSON.stringify({ input: sInput }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+
+                $('#search_button').attr('disabled', false);
+                $('#search_button').text("Search");
+
+                //if results are not returned 
+                if (eval(msg)["d"] == "Not Found") {
+                    $("#search_result").text("No results found");
+                }
+                //otherwise append the results found
+                else {
+                    $("#search_result").text("Title: " + eval(msg)["d"]);
+                    
+                }
+            },
+            error: function (msg) {
+                console.log("error: " + msg);
+            }
+        });
+    }
     //function to clear queues, storage, etc.
     function clearRequest() {
         $.ajax({

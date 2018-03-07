@@ -210,8 +210,8 @@ namespace WorkerRole1
                 //This link is now done processing, send to the table!
                 string title = " ";
                 string publicationDate = " ";
-                //default image
-                string imgLink = "http://i.cdn.turner.com/cnn/.e/img/4.0/logos/cnn_logo_social.jpg";
+                //default image if the article doesn't have one 
+                string imgLink = "http://www.bilkulonline.com/wp-content/uploads/2017/12/CNN-logo.jpg";
                 string bodyText = "";
 
                 using (var client = new WebClient())

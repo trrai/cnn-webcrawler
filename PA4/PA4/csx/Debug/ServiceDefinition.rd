@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PA4" generation="1" functional="0" release="0" Id="f5a776c3-a1aa-4212-acb5-b56916ef9b5f" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PA4" generation="1" functional="0" release="0" Id="9399c9e3-357d-4b2b-a5b1-c674be45cdf2" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="PA4Group" generation="1" functional="0" release="0">
       <componentports>
@@ -10,6 +10,11 @@
         </inPort>
       </componentports>
       <settings>
+        <aCS name="WebRole1:APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="">
+          <maps>
+            <mapMoniker name="/PA4/PA4Group/MapWebRole1:APPINSIGHTS_INSTRUMENTATIONKEY" />
+          </maps>
+        </aCS>
         <aCS name="WebRole1:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
           <maps>
             <mapMoniker name="/PA4/PA4Group/MapWebRole1:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
@@ -18,6 +23,11 @@
         <aCS name="WebRole1Instances" defaultValue="[1,1,1]">
           <maps>
             <mapMoniker name="/PA4/PA4Group/MapWebRole1Instances" />
+          </maps>
+        </aCS>
+        <aCS name="WorkerRole1:APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="">
+          <maps>
+            <mapMoniker name="/PA4/PA4Group/MapWorkerRole1:APPINSIGHTS_INSTRUMENTATIONKEY" />
           </maps>
         </aCS>
         <aCS name="WorkerRole1:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
@@ -39,6 +49,11 @@
         </lBChannel>
       </channels>
       <maps>
+        <map name="MapWebRole1:APPINSIGHTS_INSTRUMENTATIONKEY" kind="Identity">
+          <setting>
+            <aCSMoniker name="/PA4/PA4Group/WebRole1/APPINSIGHTS_INSTRUMENTATIONKEY" />
+          </setting>
+        </map>
         <map name="MapWebRole1:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
           <setting>
             <aCSMoniker name="/PA4/PA4Group/WebRole1/Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
@@ -47,6 +62,11 @@
         <map name="MapWebRole1Instances" kind="Identity">
           <setting>
             <sCSPolicyIDMoniker name="/PA4/PA4Group/WebRole1Instances" />
+          </setting>
+        </map>
+        <map name="MapWorkerRole1:APPINSIGHTS_INSTRUMENTATIONKEY" kind="Identity">
+          <setting>
+            <aCSMoniker name="/PA4/PA4Group/WorkerRole1/APPINSIGHTS_INSTRUMENTATIONKEY" />
           </setting>
         </map>
         <map name="MapWorkerRole1:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
@@ -67,6 +87,7 @@
               <inPort name="Endpoint1" protocol="http" portRanges="80" />
             </componentports>
             <settings>
+              <aCS name="APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
               <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WebRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;WebRole1&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot; /&gt;&lt;/m&gt;" />
             </settings>
@@ -84,6 +105,7 @@
         <groupHascomponents>
           <role name="WorkerRole1" generation="1" functional="0" release="0" software="C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaWorkerHost.exe " memIndex="-1" hostingEnvironment="consoleroleadmin" hostingEnvironmentVersion="2">
             <settings>
+              <aCS name="APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
               <aCS name="__ModelData" defaultValue="&lt;m role=&quot;WorkerRole1&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;WebRole1&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;r name=&quot;WorkerRole1&quot; /&gt;&lt;/m&gt;" />
             </settings>
@@ -110,9 +132,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="1dae004f-9f10-4456-b067-a659879a3cde" ref="Microsoft.RedDog.Contract\ServiceContract\PA4Contract@ServiceDefinition">
+    <implementation Id="9fed1751-8064-4941-bb6d-fe5c4f35eca2" ref="Microsoft.RedDog.Contract\ServiceContract\PA4Contract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="62b31833-dc55-430e-969e-222c8da7c90c" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="5c350484-2291-4f05-aa14-6178431f87ed" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/PA4/PA4Group/WebRole1:Endpoint1" />
           </inPort>

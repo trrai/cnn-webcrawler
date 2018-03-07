@@ -1,19 +1,21 @@
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] At least one other instance of the launcher is running. Will wait until they all finish
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Service running in Emulator Mode, will not wait/kill other instances of the launcher
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Emulator config file set to C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] DiagnosticsStoreRootPath set to: C:\Users\Tej\AppData\Local\dftmp\Resources\1c0829fc-3cb9-419d-bf46-f9771581b3da
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Loading config file: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Config file to read: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Checking VM Type
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Emulator config file set to C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Extension set to Emulator Mode
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Reading XML configuration file
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Bypassing private config decryption
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Stopping the running plugin, if any
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] No DiagnosticsPlugin is running.
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Killing any DiagnosticsPlugin that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:22 AM] Killing any MonAgentHost that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:23 AM] Diagnostics plugin stopped successfully
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:52:23 AM] Resetting DiagnosticPlugin
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:53:33 AM] DiagnosticsPlugin launched successfully with new configuration
-DiagnosticsPluginLauncher.exe Information: 0 : [3/6/2018 7:53:33 AM] DiagnosticPlugin exited with code 0
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] At least one other instance of the launcher is running. Will wait until they all finish
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Service running in Emulator Mode, will not wait/kill other instances of the launcher
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Emulator config file set to C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] DiagnosticsStoreRootPath set to: C:\Users\Tej\AppData\Local\dftmp\Resources\9e5d90a1-6e16-4bed-a6d8-d98baddc6379
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Loading config file: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Config file to read: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Checking VM Type
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Emulator config file set to C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Extension set to Emulator Mode
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Reading XML configuration file
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Bypassing private config decryption
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Stopping the running plugin, if any
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Found a MonAgentHost.exe. WadArguments: "C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WebRole1\plugins\Diagnostics\Monitor\x64\MonAgentHost.exe" -LocalPath "C:\Users\Tej\AppData\Local\dftmp\Resources\a0dabd2b-9c6b-4726-ae7b-1e64e3ef20dc\WAD0105"  -ConfigFile "C:\Users\Tej\AppData\Local\dftmp\Resources\a0dabd2b-9c6b-4726-ae7b-1e64e3ef20dc\WAD0105\Configuration\MaConfig.xml" -ShutDownEvent WADDM-ShutDown-86ce198b6ee4461b854083b3fb0f50f9  -TotalShutDownEvent WADDM-TotalShutDown-86ce198b6ee4461b854083b3fb0f50f9 -InitializedEvent WADM-StartUp-86ce198b6ee4461b854083b3fb0f50f9 -parent 5868 -events -wadVer1v5 -UseProxyServer -XStoreAccounts WadAccount#true#devstoreaccount1#Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==#http://127.0.0.1:10002#http://127.0.0.1:10001#http://127.0.0.1:10000.
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Found a DiagnosticsPlugin.exe. WadArguments: "C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WebRole1\plugins\Diagnostics\DiagnosticsPlugin.exe" DiagnosticPlugin-ShutdownEvent DiagnosticPlugin-TotalShutdownEvent -wadVer1v5.
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Loading config file: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Config file to read: C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Reading XML configuration file
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Bypassing private config decryption
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Found a running wad2 MA not sharing the same local directory
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Killing any DiagnosticsPlugin that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [3/7/2018 2:40:20 AM] Found a DiagnosticsPlugin.exe. WadArguments: "C:\Users\Tej\Source\Repos\PA4\PA4\csx\Debug\roles\WebRole1\plugins\Diagnostics\DiagnosticsPlugin.exe" DiagnosticPlugin-ShutdownEvent DiagnosticPlugin-TotalShutdownEvent -wadVer1v5.

@@ -476,7 +476,8 @@ namespace WebRole1
                     //Order first by relevance, then order by the date it was published
                     List<Tuple<int, string, string, string, string, string>> sortedResults = webList
                         .GroupBy(x => x.Address)
-                        .Select(x => new Tuple<int, string, string, string, string, string>(x.ToList().Count(), x.First().Name, x.First().Address, x.First().BodyText, x.First().Date, x.First().ImageLink))
+                        .Select(x => new Tuple<int, string, string, string, string, string>(x.ToList().Count(), x.First().Name,
+                        x.First().BodyText, x.First().Address,  x.First().Date, x.First().ImageLink))
                         .OrderByDescending(x => x.Item1)
                         .ThenByDescending(x => x.Item5)
                         .Take(25).ToList();
@@ -504,5 +505,24 @@ namespace WebRole1
             }
 
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string SearchLink(string input)
+        {
+            TableQuery<Website> rangeQuery = new TableQuery<Website>()
+                            .Where(
+                                TableQuery.GenerateFilterCondition("Address", QueryComparisons.Equal, input)
+                                );
+            var q = DBManager.getResultsTable().ExecuteQuery(rangeQuery);
+
+            foreach (var item in q)
+            {
+                return item.Name;
+            }
+
+            return "Not Found";
+        }
+
     }
 }
