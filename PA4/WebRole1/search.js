@@ -6,7 +6,7 @@
         var input = $("#search_input");
         var submit = $("#search_button");
 
-        //on each keystroke
+        //on each keystroke load suggestions from trie
         $("#search_input").keyup(function (e) {
           
             if (input.val() !== "") {
@@ -22,6 +22,7 @@
 
     };
 
+    //Callback for JSONP data from NBA API
     window.receiver_callback = function (data) {
       
         $("#nba_results").show();
@@ -78,6 +79,7 @@
         });
     };
 
+    //Function to send out ajax requests to NBA API & call asmx method to search table
     function handleSubmit(sInput) {
         $("#search_results").empty();
         $("#loading").show();

@@ -225,13 +225,16 @@ namespace WorkerRole1
 
                         //parse appropriate heading
                         title = web.DocumentNode.SelectSingleNode("//head/title").InnerText ?? "";
+
+                        //Override image link if applicable
                         imgLink = web.DocumentNode.SelectSingleNode("//meta[@property='og:image']").Attributes["content"].Value ??
-                            "http://i.cdn.turner.com/cnn/.e/img/4.0/logos/cnn_logo_social.jpg";
+                            "http://www.bilkulonline.com/wp-content/uploads/2017/12/CNN-logo.jpg";
 
                         //Capture body text
                         try
                         {
-                            //HtmlNodeCollection textNodes = new HtmlNodeCollection(null); 
+                            
+                            //Construct body text
                             StringBuilder builder = new StringBuilder();
                             var textNodes = new HtmlNodeCollection(null);
 
@@ -245,7 +248,7 @@ namespace WorkerRole1
 
                             foreach (HtmlNode textNode in textNodes)
                             {
-                                //System.Diagnostics.Debug.WriteLine("Found text: " + textNode.InnerText);
+                                //Append to the body
                                 builder.Append(textNode.InnerText);
                             }
 
@@ -282,14 +285,15 @@ namespace WorkerRole1
                 Regex rgx = new Regex("[^a-zA-Z0-9 ]");
                 title = rgx.Replace(title, "");
                 
+                //array of keywords in the title
                 string[] keywords = title.Split(null);
                 
+
                 foreach (var word in keywords)
                 {
                     if (Regex.IsMatch(word, @"^[a-zA-Z]+$"))
                     {
-                        //System.Diagnostics.Debug.WriteLine("Word: " + word);
-
+                        
                         Website newWebsite = new Website(title, url, publicationDate, word.ToLower(), imgLink, bodyText);
 
                         try {
@@ -304,7 +308,7 @@ namespace WorkerRole1
                     else
                     {
                         System.Diagnostics.Debug.WriteLine("Rejected Word: " + word);
-                        //TODO: Put code to decrement keywords length by one so the count is correct
+                        
                     }
                 }
 
@@ -313,7 +317,7 @@ namespace WorkerRole1
                 TableOperation retrieve = TableOperation.Retrieve<Website>("COUNT", "COUNT");
                 TableResult retrievedResult = DBManager.getResultsTable().Execute(retrieve);
 
-                // Increment the count by 1 if applicable 
+                // Increment the count by the number of keywords
                 if (retrievedResult.Result != null)
                 {
                     int oldCount = ((Website)retrievedResult.Result).Count;

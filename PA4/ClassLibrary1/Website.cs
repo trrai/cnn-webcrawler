@@ -11,7 +11,6 @@ namespace ClassLibrary1
     {
         public Website(string name, string address, string date, string keyword, string imgLink, string bodyTxt)
         {
-            //this.PartitionKey = (DateTime.MaxValue.Ticks - DateTime.UtcNow.Ticks).ToString();
             this.PartitionKey = keyword;
             this.Name = name;
             this.Date = date;
@@ -28,6 +27,7 @@ namespace ClassLibrary1
             this.RowKey = "COUNT";
         }
 
+        //MD5 Algorithm sourced from StackOverflow 
         public static string CreateMD5(string input)
         {
             // Use input string to calculate MD5 hash

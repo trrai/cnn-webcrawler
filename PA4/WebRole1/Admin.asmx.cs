@@ -74,6 +74,7 @@ namespace WebRole1
             return fullPath;
         }
 
+        //Returns the statistics for the trie such as the last added and number added 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string GetSuggestionStats()
@@ -81,6 +82,7 @@ namespace WebRole1
             return suggestionStats;
         }
 
+        //Builds the trie that is used to return suggestions
         [WebMethod]
         public string BuildTrie()
         {
@@ -381,6 +383,7 @@ namespace WebRole1
             return returnList;
         }
 
+        //Method to return the relevant results in the table using user input
         [WebMethod]
         [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public string SearchResults(string input)
@@ -506,6 +509,7 @@ namespace WebRole1
 
         }
 
+        //Takes in a link element and returns the title associated to that article
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string SearchLink(string input)
